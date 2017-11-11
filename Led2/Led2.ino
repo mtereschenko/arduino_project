@@ -3,7 +3,9 @@
 #include <Route.h>
 #include <LedSolidColors.h>
 #include <LedSoftBlinkColors.h>
+#include <Fade.h>
 #include <Strobe.h>
+#include <Color.h>
 
 #define RED_PIN 5
 #define GREEN_PIN 6
@@ -11,9 +13,11 @@
 
 SoftwareSerial BluetoothSerialInterface(10, 11);
 
-Route route;
+Color color;
+Route route(&color);
 LedSolidColors ledSolidColors(&route);
 LedSoftBlinkColors ledSoftBlinkColors(&route);
+Fade fade(&route);
 Strobe strobe(&route);
 
 int firstLoop = 1;
@@ -29,15 +33,18 @@ void  loop() {
   if (firstLoop == 0) {
     ledSolidColors.solid();
     ledSoftBlinkColors.rainbow();
-    ledSoftBlinkColors.fade();
+    fade.breath();
     strobe.strobe();
   }
 }
 
 //    solid/0/0/0 - мод/красный/зеленый/синий
 //    rainbow/1  - мод/интенсивность
-//    fade/1/5/3/6  - мод/интенсивность/красный/зеленый/синий
+//    breathBlue/10  - мод/интенсивность
+//    breathGreen/10  - мод/интенсивность
+//    breathRed/10  - мод/интенсивность
 //    strobe/300/50/255/104/0 - мод/темнота/свет/красный/зеленый/синий
+//    color/0/0/0 - установить цвет/р/г/б
 
 void firstStart() {
   int i;
@@ -66,6 +73,7 @@ void firstStart() {
       delay(delayTime);
     }
   }
+  initRGB();
 }
 
 void initRGB()

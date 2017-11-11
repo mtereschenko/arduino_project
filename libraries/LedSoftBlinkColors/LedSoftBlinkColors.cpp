@@ -42,33 +42,3 @@ void LedSoftBlinkColors::rainbow() {
         }
     }
 }
-
-void LedSoftBlinkColors::fade() {
-    while (route->checkMode("fade")) {
-        int pins[3];
-        pins[0] = (route->getValue(2).toInt() != RED_PIN) ? 0 : RED_PIN;
-        pins[1] = (route->getValue(3).toInt() != BLUE_PIN) ? 0 : BLUE_PIN;
-        pins[2] = (route->getValue(4).toInt() != GREEN_PIN) ? 0 : GREEN_PIN;
-        int j = 255;
-        for (int i = 0; i < 3; i++) {
-            if (pins[i] == 0) {
-                continue;
-            }
-            for (j; j > 0; j--) {
-                if (!route->checkMode("fade")) {
-                    return;
-                }
-                analogWrite(pins[i], j);
-                delay(route->getValue(1).toInt());
-            }
-            for (j; j < 255; j++) {
-                if (!route->checkMode("fade")) {
-                    return;
-                }
-                analogWrite(pins[i], j);
-                delay(route->getValue(1).toInt());
-            }
-            delay(route->getValue(1).toInt() * 5);
-        }
-    }
-}

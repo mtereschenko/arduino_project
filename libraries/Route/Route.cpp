@@ -11,27 +11,32 @@ void Route::setBluetooth(SoftwareSerial *BluetoothInterface) {
 
 bool Route::checkMode(String modeName) {
     String requestedMode;
+    String oldRequest;
     if (serial->available() > 0) {
+        oldRequest = request;
         request = serial->readString();
         requestedMode = getValue(0);
         if (requestedMode == "color") {
             color->setColor(getValue(1).toInt(), getValue(2).toInt(), getValue(3).toInt());
+            request = oldRequest;
         } else {
             mode = requestedMode;
         }
     }
 
     if (Serial.available() > 0) {
+        oldRequest = request;
         request = Serial.readString();
         requestedMode = getValue(0);
         if (requestedMode == "color") {
             color->setColor(getValue(1).toInt(), getValue(2).toInt(), getValue(3).toInt());
+            request = oldRequest;
         } else {
             mode = requestedMode;
         }
     }
 
-//    Serial.println(mode);
+//    Serial.println(request);
 //    Serial.println(modeName);
     if (modeName != mode) {
         return false;

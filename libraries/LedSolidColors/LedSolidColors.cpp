@@ -11,10 +11,6 @@ LedSolidColors::LedSolidColors(Route *externalRoute) {
 
 void LedSolidColors::solid() {
     while (route->checkMode("solid")) {
-        Serial.println(route->color->blue);
-        Serial.println(route->color->green);
-        Serial.println(route->color->red);
-        Serial.println("========");
         analogWrite(BLUE_PIN, route->color->blue);
         analogWrite(GREEN_PIN, route->color->green);
         analogWrite(RED_PIN, route->color->red);
